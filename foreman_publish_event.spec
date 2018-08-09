@@ -26,6 +26,8 @@ CXXFLAGS="%optflags -Wno-error=format-security -Wno-deprecated-declarations" ./c
 %install
 rm -rf $RPM_BUILD_ROOT
 make install DESTDIR=$RPM_BUILD_ROOT
+mkdir $RPM_BUILD_ROOT/etc
+cp foreman_publish_event.conf $RPM_BUILD_ROOT/etc
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -33,6 +35,7 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-,root,root,-)
 %{_bindir}/*
+%config /etc/foreman_publish_event.conf
 %license COPYING
 
 %changelog

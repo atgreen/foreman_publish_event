@@ -24,7 +24,7 @@
 #include <activemq/core/ActiveMQConnectionFactory.h>
 #include <decaf/lang/System.h>
 
-#define CONFIG_FILE "/etc/foreman_publish_event"
+#define CONFIG_FILE "/etc/foreman_publish_event.conf"
 
 using namespace activemq;
 using namespace cms;
