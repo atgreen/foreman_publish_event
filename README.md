@@ -2,22 +2,23 @@
 
 This is a very experimental project.
 
-The foreman_publish_event project sends foreman_hook create/destroy
-events to ActiveMQ, allowing users to subscribe to topics of interest
-for automation purposes without tasking the foreman/Satellite
-administrator with hook script development, installation and
-maintenance.
+`foreman_publish_event` sends `foreman_hook` create/destroy events to
+ActiveMQ, allowing users to subscribe to topics of interest in order
+to trigger automation.
 
-Example use cases include:
+## Why?
 
-* Trigger gold image VM template or base container image creation
-  based on ContentView promotions.
+Developing `foreman_hook` based automation requires admin access to
+the Satellite server.  This is not always convenient or even possible.
+By publishing hook events over an ActiveMQ message bus, developers are
+free to experiment with system automation tasks without interfering
+with day-to-day Satellite operations.
 
-* Update CMDB records based on host create/destroy messages.
-
-* Send notification messages based on new errata availability.
-
-* etc
+An example use case would be for a development team wanting to trigger
+Linux container image rebuilds based on new Satellite content
+availability.  `foreman_publish_event` removes a dependency on
+Satellite operations, allowing for faster development and freedom to
+innovate.
 
 ## Building
 
