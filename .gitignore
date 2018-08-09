@@ -12,4 +12,5 @@ depcomp
 *.o
 install-sh
 missing
+*.tar.gz
 
