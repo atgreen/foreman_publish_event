@@ -19,9 +19,9 @@ Example use cases include:
 
 * etc
 
-# Building
+## Building
 
-## Red Hat Enterprise Linux 7
+### Red Hat Enterprise Linux 7
 
 foreman_publish_event uses ActiveMQ 6, which means you'll need the
 `activemq-cpp-devel` package from EPEL.  Also be sure to install
@@ -31,17 +31,17 @@ foreman_publish_event uses ActiveMQ 6, which means you'll need the
 * Run `make dist` to create a tarball.
 * Run `rpmbuild -ta foreman_publish_event-VERSION.tar.gz` to build the RPM.
 
-# Configuring
+## Configuring
 
 The config file is `/etc/foreman_publish_event`.  You'll need to set
 the ActiveMQ broker `uri` as well as login credentials `username` and
 `password`.
 
-# Troubleshooting
+## Troubleshooting
 
 Errors are sent to syslog, which you can review with `journalctl`.
 
-# Author
+## Author
 
 foreman_publish_event is an experiment by Anthony Green.
 
