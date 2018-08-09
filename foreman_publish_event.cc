@@ -39,7 +39,15 @@ static void fatal (const char *msg)
   exit (EXIT_SUCCESS);
 }
 
-int main(void)
+static bool replace(std::string& str, const std::string& from, const std::string& to) {
+  size_t start_pos = str.find(from);
+  if(start_pos == std::string::npos)
+    return false;
+  str.replace(start_pos, from.length(), to);
+  return true;
+}
+
+int main(int argc, const char *argv[])
 {
   GKeyFile* gkf;
   gkf = g_key_file_new();
@@ -82,7 +90,11 @@ int main(void)
 
     session = connection->createSession(Session::AUTO_ACKNOWLEDGE);
 
-    destination = session->createTopic("FOREMAN");
+    string topic("FOREMAN" + string(argv[0]));
+    replace(topic, string("/usr/share/foreman/config/hooks"), string(""));
+    replace(topic, string("/99_foreman_publish_event"), string(""));
+
+    destination = session->createTopic(topic);
 
     producer = session->createProducer(destination);
     producer->setDeliveryMode(DeliveryMode::NON_PERSISTENT);
