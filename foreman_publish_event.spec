@@ -8,7 +8,8 @@ License:	GPLv3
 URL:		https://github.com/atgreen/foreman_hook_event
 Source0:	foreman_publish_event-%{version}.tar.gz
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-BuildRequires:  activemq-cpp-devel glib2-devel 
+BuildRequires:  activemq-cpp-devel glib2-devel
+Requires:       tfm-rubygem-foreman_hooks
 
 %description
 foreman_publish_event sends all foreman hook events over OpenWire +
