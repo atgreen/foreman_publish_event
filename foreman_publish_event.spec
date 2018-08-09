@@ -30,15 +30,25 @@ mkdir $RPM_BUILD_ROOT/etc
 cp foreman_publish_event.conf $RPM_BUILD_ROOT/etc
 
 %post
-TMPDIR=`mktemp /tmp/foreman_publish_event_XXXXXXX`
+TMPDIR=`mktemp -d /tmp/foreman_publish_event_XXXXXXX`
 mkdir -p $TMPDIR
-foreman-rake hooks:objects > $TMPDIR/objects
+foreman-rake hooks:objects 2>/dev/null | sort | uniq > $TMPDIR/objects 
 cat $TMPDIR/objects | xargs -n1 -iXXXX  mkdir -p /usr/share/foreman/config/hooks/XXXX/after_destroy
 cat $TMPDIR/objects | xargs -n1 -iXXXX  mkdir -p /usr/share/foreman/config/hooks/XXXX/after_create
-cat $TMPDIR/objects | xargs -n1 -iXXXX  ln -s %{_bindir}/foreman_post_event /usr/share/foreman/config/hooks/XXXX/after_create/99_foreman_post_event
-cat $TMPDIR/objects | xargs -n1 -iXXXX  ln -s %{_bindir}/foreman_post_event /usr/share/foreman/config/hooks/XXXX/after_create/99_foreman_post_event
+cat $TMPDIR/objects | xargs -n1 -iXXXX  ln -s %{_bindir}/foreman_publish_event /usr/share/foreman/config/hooks/XXXX/after_create/99_foreman_publish_event
+cat $TMPDIR/objects | xargs -n1 -iXXXX  ln -s %{_bindir}/foreman_publish_event /usr/share/foreman/config/hooks/XXXX/after_destroy/99_foreman_publish_event
 rm -rf $TMPDIR
 
+# Work around bug: https://github.com/theforeman/foreman_hooks/issues/45
+rm -rf /usr/share/foreman/config/hooks/aix
+rm -rf /usr/share/foreman/config/hooks/foreman/model/ec2
+rm -rf /usr/share/foreman/config/hooks/foreman/model/gce
+rm -rf /usr/share/foreman/config/hooks/katello/kt_environment
+rm -rf /usr/share/foreman/config/hooks/nic/bmc
+rm -rf /usr/share/foreman/config/hooks/nxos
+
+%preun
+find /usr/share/foreman/config/hooks -name 99_foreman_publish_event | xargs rm
 
 %clean
 rm -rf $RPM_BUILD_ROOT
