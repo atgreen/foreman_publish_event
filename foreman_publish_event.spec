@@ -39,13 +39,13 @@ cat $TMPDIR/objects | xargs -n1 -iXXXX  ln -s %{_bindir}/foreman_publish_event /
 cat $TMPDIR/objects | xargs -n1 -iXXXX  ln -s %{_bindir}/foreman_publish_event /usr/share/foreman/config/hooks/XXXX/after_destroy/99_foreman_publish_event
 rm -rf $TMPDIR
 
-# Work around bug: https://github.com/theforeman/foreman_hooks/issues/45
-rm -rf /usr/share/foreman/config/hooks/aix
-rm -rf /usr/share/foreman/config/hooks/foreman/model/ec2
-rm -rf /usr/share/foreman/config/hooks/foreman/model/gce
-rm -rf /usr/share/foreman/config/hooks/katello/kt_environment
-rm -rf /usr/share/foreman/config/hooks/nic/bmc
-rm -rf /usr/share/foreman/config/hooks/nxos
+# Work around foreman_hooks bug: https://github.com/theforeman/foreman_hooks/issues/45
+find /usr/share/foreman/config/hooks/aix -name 99_foreman_publish_event	| xargs	rm
+find /usr/share/foreman/config/hooks/foreman/model/ec2 -name 99_foreman_publish_event | xargs rm
+find /usr/share/foreman/config/hooks/foreman/model/gce -name 99_foreman_publish_event | xargs rm
+find /usr/share/foreman/config/hooks/katello/kt_environment -name 99_foreman_publish_event | xargs rm
+find /usr/share/foreman/config/hooks/nic/bmc -name 99_foreman_publish_event | xargs rm
+find /usr/share/foreman/config/hooks/nxos -name 99_foreman_publish_event | xargs rm
 
 %preun
 find /usr/share/foreman/config/hooks -name 99_foreman_publish_event | xargs rm
@@ -56,7 +56,7 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-,root,root,-)
 %{_bindir}/*
-%config /etc/foreman_publish_event.conf
+%config(noreplace) /etc/foreman_publish_event.conf
 %doc README.md
 %license COPYING
 
