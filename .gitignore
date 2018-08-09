@@ -1,2 +1,15 @@
 *~
 foreman_publish_event
+Makefile
+.deps/
+Makefile.in
+aclocal.m4
+autom4te.cache/
+config.log
+config.status
+configure
+depcomp
+*.o
+install-sh
+missing
+
