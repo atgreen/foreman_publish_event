@@ -29,6 +29,17 @@ make install DESTDIR=$RPM_BUILD_ROOT
 mkdir $RPM_BUILD_ROOT/etc
 cp foreman_publish_event.conf $RPM_BUILD_ROOT/etc
 
+%post
+TMPDIR=`mktemp /tmp/foreman_publish_event_XXXXXXX`
+mkdir -p $TMPDIR
+foreman-rake hooks:objects > $TMPDIR/objects
+cat $TMPDIR/objects | xargs -n1 -iXXXX  mkdir -p /usr/share/foreman/config/hooks/XXXX/after_destroy
+cat $TMPDIR/objects | xargs -n1 -iXXXX  mkdir -p /usr/share/foreman/config/hooks/XXXX/after_create
+cat $TMPDIR/objects | xargs -n1 -iXXXX  ln -s %{_bindir}/foreman_post_event /usr/share/foreman/config/hooks/XXXX/after_create/99_foreman_post_event
+cat $TMPDIR/objects | xargs -n1 -iXXXX  ln -s %{_bindir}/foreman_post_event /usr/share/foreman/config/hooks/XXXX/after_create/99_foreman_post_event
+rm -rf $TMPDIR
+
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -36,6 +47,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-,root,root,-)
 %{_bindir}/*
 %config /etc/foreman_publish_event.conf
+%doc README.md
 %license COPYING
 
 %changelog

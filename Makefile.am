@@ -1,6 +1,7 @@
 AUTOMAKE_OPTIONS = foreign
 
-EXTRA_DIST = COPYING foreman_publish_event.spec foreman_publish_event.conf
+EXTRA_DIST = COPYING foreman_publish_event.spec \
+	foreman_publish_event.conf README.md
 
 bin_PROGRAMS = foreman_publish_event
 
