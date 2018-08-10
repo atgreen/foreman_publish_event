@@ -39,6 +39,9 @@ cat $TMPDIR/objects | xargs -n1 -iXXXX  ln -s %{_bindir}/foreman_publish_event /
 cat $TMPDIR/objects | xargs -n1 -iXXXX  ln -s %{_bindir}/foreman_publish_event /usr/share/foreman/config/hooks/XXXX/after_destroy/99_foreman_publish_event
 rm -rf $TMPDIR
 
+mkdir -p /usr/share/foreman/config/hooks/katello/repository/after_sync
+ln -s %{_bindir}/foreman_publish_event /usr/share/foreman/config/hooks/katello/repository/after_sync
+
 # Work around foreman_hooks bug: https://github.com/theforeman/foreman_hooks/issues/45
 find /usr/share/foreman/config/hooks/aix -name 99_foreman_publish_event	| xargs	rm
 find /usr/share/foreman/config/hooks/foreman/model/ec2 -name 99_foreman_publish_event | xargs rm
